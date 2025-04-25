@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34616.47
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Object oriented development project", "Object oriented development project\Object oriented development project.csproj", "{95E38836-275D-4D8C-8FAA-EBEA94F06172}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataManagement", "DataManagement\DataManagement.csproj", "{5D667544-A5FD-437D-9286-60DD41D51356}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{95E38836-275D-4D8C-8FAA-EBEA94F06172}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95E38836-275D-4D8C-8FAA-EBEA94F06172}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95E38836-275D-4D8C-8FAA-EBEA94F06172}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95E38836-275D-4D8C-8FAA-EBEA94F06172}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D667544-A5FD-437D-9286-60DD41D51356}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D667544-A5FD-437D-9286-60DD41D51356}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D667544-A5FD-437D-9286-60DD41D51356}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D667544-A5FD-437D-9286-60DD41D51356}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D59DEB8F-D7A1-4124-BF73-77599A6399B4}
+	EndGlobalSection
+EndGlobal
