@@ -7,7 +7,14 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <TextBlock HorizontalAlignment="Left" Margin="294,150,0,0" TextWrapping="Wrap" Text="Health:" VerticalAlignment="Top"/>
+        <TextBlock x:Name="PlayerHealthText" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" FontSize="16"/>
+        <TextBlock x:Name="PlayerScoreText" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,40,0,0" FontSize="16"/>
+        <TextBlock x:Name="InventoryText" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,70,0,0" FontSize="16"/>
 
+        <TextBlock x:Name="RoomDescriptionText" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,120,0,0" Width="550" FontSize="14" TextWrapping="Wrap"/>
+
+        <TextBlock x:Name="CombatText" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,250,0,0" Width="550" FontSize="14" TextWrapping="Wrap"/>
+
+        <Button Content="Choose Room" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="40" Margin="10,200,0,0" Click="ChooseRoomButton_Click"/>
     </Grid>
 </Window>

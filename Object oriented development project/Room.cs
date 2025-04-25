@@ -1,30 +1,74 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+//namespace Object_oriented_development_project
+//{
+//    public class Room
+//    {
+//        [Key] public int Id { get; set; }
+//        public string DescriptionType { get; set; }
+//        public string RoomDescription { get; set; }
+
+//        public Door door { get; set; }
+//    }
+//    public class Door
+//    {
+//        [Key]
+//        public int Id { get; set; }
+//        public string DoorType { get; set; } //store the door chosen to determine rooms description
+
+//        public List<Room> Rooms { get; set; }
+//    }
+
+//    public class RoomData : DbContext
+//    {
+//        public RoomData() : base("MyGameRooms") { }
+//        public DbSet<Room> Rooms { get; set; }
+//        public DbSet<Door> Doors { get; set; }
+
+//    }
+//}
 namespace Object_oriented_development_project
 {
     public class Room
     {
+        [Key]
         public int Id { get; set; }
+
+        [Required]
         public string DescriptionType { get; set; }
+
+        [Required]
         public string RoomDescription { get; set; }
 
-        public Door door { get; set; }
+        public int DoorId { get; set; }
+
+        [ForeignKey("DoorId")]
+        public virtual Door Door { get; set; }
     }
+
     public class Door
     {
-        public string DoorType { get; set; } //store the door chosen to determine rooms description
+        [Key]
+        public int Id { get; set; }
 
-        public List<Room> Rooms { get; set; }
+        [Required]
+        public string DoorType { get; set; }  // Example: "Wooden", "Iron", etc.
+
+        public virtual ICollection<Room> Rooms { get; set; }
     }
 
     public class RoomData : DbContext
     {
         public RoomData() : base("MyGameRooms") { }
+
         public DbSet<Room> Rooms { get; set; }
+        public DbSet<Door> Doors { get; set; }
     }
 }
