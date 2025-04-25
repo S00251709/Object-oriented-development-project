@@ -18,7 +18,7 @@ namespace Object_oriented_development_project
             if (Health <= 0)
             {
                 Health = 0;
-                // Trigger Game Over
+                // Triggers a Game Over
             }
         }
 

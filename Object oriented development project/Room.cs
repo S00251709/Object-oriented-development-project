@@ -59,7 +59,7 @@ namespace Object_oriented_development_project
         public int Id { get; set; }
 
         [Required]
-        public string DoorType { get; set; }  // Example: "Wooden", "Iron", etc.
+        public string DoorType { get; set; }
 
         public virtual ICollection<Room> Rooms { get; set; }
     }
