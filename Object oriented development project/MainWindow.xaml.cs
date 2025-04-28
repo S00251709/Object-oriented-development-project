@@ -15,9 +15,6 @@ using System.Windows.Shapes;
 
 namespace Object_oriented_development_project
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         private Player player;
@@ -27,6 +24,10 @@ namespace Object_oriented_development_project
 
         private int playerDamage;
         private int healingFlasks;
+        private List<string> availableDoorTypes;
+
+        private List<string> doorTypes = new List<string> { "Wooden", "Iron", "Stone", "Glass", "Ornate", "Rusty", "Golden", "Emerald", "Charred", "Bronze", "Runic", "Eldritch", "Abyssal", "Void" };
+        string fullDescription = "";
 
         public MainWindow()
         {
@@ -37,7 +38,9 @@ namespace Object_oriented_development_project
 
             playerDamage = 10;
             healingFlasks = 3;
+            availableDoorTypes = new List<string> { "Wooden", "Iron", "Stone", "Ornate", "Rusty", "Golden", "Emerald", "Charred", "Bronze",  "Runic", "Eldritch", "Abyssal", "Void" };
 
+            AssignRandomDoors(); // NEW FUNCTION
             UpdatePlayerUI();
         }
 
@@ -45,32 +48,94 @@ namespace Object_oriented_development_project
         {
             PlayerHealthText.Text = $"Health: {player.Health}";
             PlayerScoreText.Text = $"Score: {player.Score}";
-            InventoryText.Text = $"Inventory: {string.Join(", ", player.Inventory)}";
         }
+
 
         private void DoorButton_Click(object sender, RoutedEventArgs e)
         {
             Button clickedButton = sender as Button;
+            string chosenDoorType = clickedButton.Content.ToString();
 
-            WoodenDoorButton.IsEnabled = false;
-            IronDoorButton.IsEnabled = false;
-            SteelDoorButton.IsEnabled = false;
+            SetDoorButtonsEnabled(false);
 
-            var chosenDoorType = clickedButton.Content.ToString();
-            var availableRooms = roomContext.Rooms.Where(r => r.Door.DoorType == chosenDoorType).ToList();
-
-            var chosenRoom = availableRooms[random.Next(availableRooms.Count)];
-
-            RoomDescriptionText.Text = $"You choose the {chosenRoom.DescriptionType} room. The room details are:\n" +
-                                       $"{chosenRoom.RoomDescription}";
+            DisplayRoomDescription(chosenDoorType);
 
             EnemyEncounter();
+
+            // After each encounter ends, teh player then gets to pick new randomised doors
+            AssignRandomDoors();
+
+           
+            SetDoorButtonsEnabled(true);
+           
         }
+
+        // Enable/disable the door buttons
+        private void SetDoorButtonsEnabled(bool enabled)
+        {
+            DoorButton1.IsEnabled = enabled;
+            DoorButton2.IsEnabled = enabled;
+            DoorButton3.IsEnabled = enabled;
+        }
+
+        // Assign three random doors to the buttons
+        private void AssignRandomDoors()
+        {
+            // Shuffle the door types
+            var shuffledDoors = doorTypes.OrderBy(x => random.Next()).ToList();
+
+            // Pick the first three
+            DoorButton1.Content = shuffledDoors[0];
+            DoorButton2.Content = shuffledDoors[1];
+            DoorButton3.Content = shuffledDoors[2];
+        }
+
+        // Show the room description
+        private void DisplayRoomDescription(string chosenDoorType)
+        {
+            
+            var rooms = roomContext.Rooms.Where(r => r.Door.DoorType == chosenDoorType).ToList();
+
+            if (rooms.Count == 0)
+            {
+                RoomDescriptionText.Text = "No rooms found for this door.";
+                return;
+            }
+
+            var wallsAndItems = rooms.Where(r => r.DescriptionType == "WallsAndItems").ToList();
+            var floorAndCeiling = rooms.Where(r => r.DescriptionType == "FloorAndCeiling").ToList();
+            var ambience = rooms.Where(r => r.DescriptionType == "Ambience").ToList();
+
+
+            RoomDescriptionText.Text += "\n\n";
+            RoomDescriptionText.Text += $"You go through the {chosenDoorType} door\n As you enter, You notice ";
+            if (wallsAndItems.Any())
+            {
+                var selectedWalls = wallsAndItems[random.Next(wallsAndItems.Count)];
+                fullDescription += $"{selectedWalls.RoomDescription}, ";
+            }
+
+            if (floorAndCeiling.Any())
+            {
+                var selectedFloor = floorAndCeiling[random.Next(floorAndCeiling.Count)];
+                fullDescription += $"{selectedFloor.RoomDescription}, ";
+            }
+
+            if (ambience.Any())
+            {
+                var selectedAmbience = ambience[random.Next(ambience.Count)];
+                fullDescription += $"{selectedAmbience.RoomDescription}, ";
+            }
+
+            RoomDescriptionText.Text += fullDescription.Trim();
+            RoomdescriptionScrollviewer.ScrollToEnd();
+        }
+
 
         private void EnemyEncounter()
         {
-            int enemyChance = random.Next(1, 101); 
-            if (enemyChance <= 50) 
+            int enemyChance = random.Next(1, 101);
+            if (enemyChance <= 50)
             {
                 StartCombat();
             }
@@ -78,10 +143,17 @@ namespace Object_oriented_development_project
             {
                 CombatText.Text = "No enemies were encountered in this room.";
             }
+            
         }
 
         private void StartCombat()
         {
+            DoorButton1.Visibility = Visibility.Collapsed;
+            DoorButton2.Visibility = Visibility.Collapsed;
+            DoorButton3.Visibility = Visibility.Collapsed;
+
+            // Show combat controls
+            CombatControls.Visibility = Visibility.Visible;
             currentEnemy = new Enemy { Name = "Goblin", Health = 40, AttackPower = 5 };
             CombatText.Text = $"A wild {currentEnemy.Name} appears! Prepare to fight.";
 
@@ -96,13 +168,20 @@ namespace Object_oriented_development_project
             if (player.Health <= 0 || currentEnemy.Health <= 0)
                 return;
 
-            int damage = random.Next(playerDamage - 2, playerDamage + 2);  
+            int damage = random.Next(playerDamage - 2, playerDamage + 2);
             currentEnemy.Health -= damage;
-            CombatText.Text = $"You attack {currentEnemy.Name} for {damage} damage.";
+            CombatText.Text += Environment.NewLine + $"You attack {currentEnemy.Name} for {damage} damage.";
 
             if (currentEnemy.Health <= 0)
             {
-                CombatText.Text += $"\nYou defeated {currentEnemy.Name}!";
+                CombatText.Text +=  $"\nYou defeated {currentEnemy.Name}!";
+                CombatLogScrollViewer.ScrollToEnd();
+
+                AttackButton.Visibility = Visibility.Collapsed;
+                HealButton.Visibility = Visibility.Collapsed;
+                DoorButton1.Visibility = Visibility.Visible;
+                DoorButton2.Visibility = Visibility.Visible;
+                DoorButton3.Visibility = Visibility.Visible;
                 player.Score += 10;
                 UpdatePlayerUI();
                 Reward();
@@ -112,19 +191,22 @@ namespace Object_oriented_development_project
             int enemyDamage = currentEnemy.Attack();
             player.TakeDamage(enemyDamage);
             CombatText.Text += $"\n{currentEnemy.Name} attacks you for {enemyDamage} damage.";
+            CombatLogScrollViewer.ScrollToEnd();
+
 
             UpdatePlayerUI();
 
             if (player.Health <= 0)
             {
                 CombatText.Text += "\nYou were defeated! Game Over.";
+                CombatLogScrollViewer.ScrollToEnd();
+
                 AttackButton.Visibility = Visibility.Collapsed;
                 HealButton.Visibility = Visibility.Collapsed;
                 return;
             }
         }
 
-        // Handle Healing
         private void HealPlayer()
         {
             if (healingFlasks > 0)
@@ -155,16 +237,15 @@ namespace Object_oriented_development_project
             string reward = random.NextDouble() < 0.95 ? "Healing Potion" : "Weapon";
             if (reward == "Healing Potion")
             {
-                healingFlasks += 2; // Reward the player with 2 healing flasks
+                healingFlasks += 2;
                 CombatText.Text += "\nYou find 2 Healing Potions!";
             }
             else
             {
-                playerDamage += 2; // Reward the player with a stronger weapon
+                playerDamage += 2;
                 CombatText.Text += "\nYou find a new Weapon! Your damage increases.";
             }
 
-            // Update score
             player.Score += 100;
             UpdatePlayerUI();
         }

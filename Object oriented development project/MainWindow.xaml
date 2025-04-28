@@ -1,31 +1,76 @@
 ﻿<Window x:Class="Object_oriented_development_project.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="600" Width="1000">
-    <Grid>
-        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10">
-            <TextBlock x:Name="PlayerHealthText" FontSize="16"/>
-            <TextBlock x:Name="PlayerScoreText" FontSize="16"/>
-            <TextBlock x:Name="InventoryText" FontSize="16"/>
+        Title="Mystic Doorways" Height="600" Width="800"
+        Background="#1c1b29" FontFamily="Georgia" Foreground="#f5e9d3">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="3*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+            <TextBlock x:Name="PlayerHealthText" Text="Health: 100" 
+        Margin="0,2,0,2" FontSize="24" />
+            <TextBlock x:Name="PlayerScoreText" Text="Score: 0" 
+    Margin="0,2,0,2" FontSize="20" />
+        </StackPanel>
+            <!-- Room Description -->
+            <Border Grid.Row="1" BorderBrush="#cbb279" BorderThickness="3" CornerRadius="10" Padding="15" Background="#2a293d">
+                <ScrollViewer x:Name="RoomdescriptionScrollviewer" VerticalScrollBarVisibility="Auto">
+                    <TextBlock x:Name="RoomDescriptionText" 
+                               Text="Room description will appear here..." 
+                               TextWrapping="Wrap" 
+                               FontSize="16" 
+                               Margin="5" />
+                </ScrollViewer>
+            </Border>
+
+        <!-- Buttons for Doors -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,20,0,20">
+            <Button x:Name="DoorButton1" Width="150" Height="50" 
+                    Background="#7e5e60" Foreground="White" 
+                    FontSize="16" FontWeight="Bold" Click="DoorButton_Click" 
+                    Content="Door 1" />
+            <Button x:Name="DoorButton2" Width="150" Height="50" 
+                    Background="#7e5e60" Foreground="White" 
+                    FontSize="16" FontWeight="Bold" Click="DoorButton_Click" 
+                    Content="Door 2" />
+            <Button x:Name="DoorButton3" Width="150" Height="50" 
+                    Background="#7e5e60" Foreground="White" 
+                    FontSize="16" FontWeight="Bold" Click="DoorButton_Click" 
+                    Content="Door 3" />
         </StackPanel>
 
-        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="250,10,10,10">
-            <StackPanel>
-                <TextBlock x:Name="RoomDescriptionText" FontSize="14" TextWrapping="Wrap" Margin="0,10"/>
-
-                <TextBlock x:Name="CombatText" FontSize="14" TextWrapping="Wrap" Margin="0,10"/>
-            </StackPanel>
-        </ScrollViewer>
-
-        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,150,0,0">
-            <Button x:Name="WoodenDoorButton" Content="Wooden Door" Width="200" Height="40" Margin="0,10" Click="DoorButton_Click"/>
-            <Button x:Name="IronDoorButton" Content="Iron Door" Width="200" Height="40" Margin="0,10" Click="DoorButton_Click"/>
-            <Button x:Name="SteelDoorButton" Content="Steel Door" Width="200" Height="40" Margin="0,10" Click="DoorButton_Click"/>
+        <!-- Combat Controls (Initially Hidden) -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,10,0,10"  Visibility="Collapsed" x:Name="CombatControls">
+            <Button x:Name="AttackButton" Width="120" Height="40"
+                    Background="#b54848" Foreground="White"
+                    FontSize="14" FontWeight="Bold" Click="AttackButton_Click"
+                    Content="Attack" />
+            <Button x:Name="HealButton" Width="120" Height="40"
+                    Background="#48b55b" Foreground="White"
+                    FontSize="14" FontWeight="Bold" Click="HealButton_Click"
+                    Content="Heal" />
         </StackPanel>
 
-        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="250,250,0,0">
-            <Button x:Name="AttackButton" Content="Attack" Width="200" Height="40" Margin="0,10" Click="AttackButton_Click" Visibility="Collapsed"/>
-            <Button x:Name="HealButton" Content="Heal" Width="200" Height="40" Margin="0,10" Click="HealButton_Click" Visibility="Collapsed"/>
+        <!-- Combat log-->
+        <StackPanel Grid.Row="4" Margin="0,10,0,0" >
+            <Border Grid.Row="4" BorderBrush="#cbb279" BorderThickness="3" CornerRadius="10" Padding="10" Margin="10">
+                <ScrollViewer x:Name="CombatLogScrollViewer" VerticalScrollBarVisibility="Auto" Height="100">
+                    <TextBlock x:Name="CombatText" Text="Combat log will appear here." 
+                               TextWrapping="Wrap" Margin="0,5,0,5" FontSize="14"  />
+                </ScrollViewer>
+            </Border>
+            <!--<TextBlock x:Name="PlayerHealthText" Text="Health: 100" 
+                    Margin="0,2,0,2" FontSize="14" />
+            <TextBlock x:Name="PlayerScoreText" Text="Score: 0" 
+                Margin="0,2,0,2" FontSize="14" />-->
         </StackPanel>
+        
+
     </Grid>
 </Window>
