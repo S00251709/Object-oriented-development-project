@@ -10,7 +10,6 @@ namespace Object_oriented_development_project
     {
         public int Health { get; set; } = 100;
         public int Score { get; set; } = 0;
-        public List<string> Inventory { get; set; } = new List<string>();
 
         public void TakeDamage(int damage)
         {
@@ -21,7 +20,5 @@ namespace Object_oriented_development_project
                 // Triggers a Game Over
             }
         }
-
-        public void AddItem(string item) => Inventory.Add(item);
     }
 }

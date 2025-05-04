@@ -24,13 +24,15 @@ namespace Object_oriented_development_project
 
         private int playerDamage;
         private int healingFlasks;
-        private List<string> availableDoorTypes;
 
-        private List<string> doorTypes = new List<string> { "Wooden", "Iron", "Stone", "Glass", "Ornate", "Rusty", "Golden", "Emerald", "Charred", "Bronze", "Runic", "Eldritch", "Abyssal", "Void" };
+        //Im using a list so that the game knows what the names for the doors are in the databases
+        private List<string> doorTypes = new List<string> { "Wooden", "Iron", "Stone", "Ornate", "Rusty", "Golden", "Emerald", "Charred", "Bronze", "Runic", "Eldritch", "Abyssal", "Void", "Crystal", "Bone", "Clockwork", "Veil", "Blood", "Mirror" };
+        //this string is what is used to show the text describing the rooms 
         string fullDescription = "";
 
         public MainWindow()
         {
+            //when the player opens the game, it begins by creating a new player object along with setting up random
             InitializeComponent();
             player = new Player();
             random = new Random();
@@ -38,9 +40,7 @@ namespace Object_oriented_development_project
 
             playerDamage = 10;
             healingFlasks = 3;
-            availableDoorTypes = new List<string> { "Wooden", "Iron", "Stone", "Ornate", "Rusty", "Golden", "Emerald", "Charred", "Bronze",  "Runic", "Eldritch", "Abyssal", "Void" };
-
-            AssignRandomDoors(); // NEW FUNCTION
+            AssignRandomDoors();
             UpdatePlayerUI();
         }
 
@@ -56,41 +56,29 @@ namespace Object_oriented_development_project
             Button clickedButton = sender as Button;
             string chosenDoorType = clickedButton.Content.ToString();
 
-            SetDoorButtonsEnabled(false);
-
             DisplayRoomDescription(chosenDoorType);
 
             EnemyEncounter();
 
-            // After each encounter ends, teh player then gets to pick new randomised doors
+            // After each encounter ends, thh player then gets to pick new randomised doors
             AssignRandomDoors();
-
-           
-            SetDoorButtonsEnabled(true);
-           
         }
 
-        // Enable/disable the door buttons
-        private void SetDoorButtonsEnabled(bool enabled)
-        {
-            DoorButton1.IsEnabled = enabled;
-            DoorButton2.IsEnabled = enabled;
-            DoorButton3.IsEnabled = enabled;
-        }
+        
 
-        // Assign three random doors to the buttons
+        //This method assigns three random doors to the buttons
         private void AssignRandomDoors()
         {
-            // Shuffle the door types
+            //It starts by shuffling the door types
             var shuffledDoors = doorTypes.OrderBy(x => random.Next()).ToList();
 
-            // Pick the first three
+            //Then it goes on to pick the first three
             DoorButton1.Content = shuffledDoors[0];
             DoorButton2.Content = shuffledDoors[1];
             DoorButton3.Content = shuffledDoors[2];
         }
 
-        // Show the room description
+        //This method shows the room description
         private void DisplayRoomDescription(string chosenDoorType)
         {
             
@@ -101,7 +89,7 @@ namespace Object_oriented_development_project
                 RoomDescriptionText.Text = "No rooms found for this door.";
                 return;
             }
-
+            //the room descriptions are made up of three parts that are each randomly picked from the database
             var wallsAndItems = rooms.Where(r => r.DescriptionType == "WallsAndItems").ToList();
             var floorAndCeiling = rooms.Where(r => r.DescriptionType == "FloorAndCeiling").ToList();
             var ambience = rooms.Where(r => r.DescriptionType == "Ambience").ToList();
@@ -112,7 +100,7 @@ namespace Object_oriented_development_project
             if (wallsAndItems.Any())
             {
                 var selectedWalls = wallsAndItems[random.Next(wallsAndItems.Count)];
-                fullDescription += $"{selectedWalls.RoomDescription}, ";
+                fullDescription = $"{selectedWalls.RoomDescription}, ";
             }
 
             if (floorAndCeiling.Any())
@@ -131,7 +119,7 @@ namespace Object_oriented_development_project
             RoomdescriptionScrollviewer.ScrollToEnd();
         }
 
-
+        //This method is used to determine whetehr or not the player encounters an enemy, if they do it runst the StartCombat method
         private void EnemyEncounter()
         {
             int enemyChance = random.Next(1, 101);
@@ -148,11 +136,12 @@ namespace Object_oriented_development_project
 
         private void StartCombat()
         {
+            //at the start of combat the game hides the buttons for choosing the doors
             DoorButton1.Visibility = Visibility.Collapsed;
             DoorButton2.Visibility = Visibility.Collapsed;
             DoorButton3.Visibility = Visibility.Collapsed;
 
-            // Show combat controls
+            //then it shows the combat controls
             CombatControls.Visibility = Visibility.Visible;
             currentEnemy = new Enemy { Name = "Goblin", Health = 40, AttackPower = 5 };
             CombatText.Text = $"A wild {currentEnemy.Name} appears! Prepare to fight.";
@@ -163,6 +152,7 @@ namespace Object_oriented_development_project
             CombatTurn();
         }
 
+        //this method is for when the player encounters anenemy in a room and plays out the combat
         private void CombatTurn()
         {
             if (player.Health <= 0 || currentEnemy.Health <= 0)
@@ -207,6 +197,7 @@ namespace Object_oriented_development_project
             }
         }
 
+        //Method for when the player chooses to heal in combat
         private void HealPlayer()
         {
             if (healingFlasks > 0)
@@ -222,6 +213,7 @@ namespace Object_oriented_development_project
             }
         }
 
+        //Methods for when the player selects attack or heal while in combat
         private void AttackButton_Click(object sender, RoutedEventArgs e)
         {
             CombatTurn();
@@ -232,6 +224,7 @@ namespace Object_oriented_development_project
             HealPlayer();
         }
 
+        //this method is for when a player finishes combat, it determines the reward they get more often than not it will be healing potions but occasionally it will be a new weapon, which increases their damage
         private void Reward()
         {
             string reward = random.NextDouble() < 0.95 ? "Healing Potion" : "Weapon";

@@ -7,33 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-//namespace Object_oriented_development_project
-//{
-//    public class Room
-//    {
-//        [Key] public int Id { get; set; }
-//        public string DescriptionType { get; set; }
-//        public string RoomDescription { get; set; }
-
-//        public Door door { get; set; }
-//    }
-//    public class Door
-//    {
-//        [Key]
-//        public int Id { get; set; }
-//        public string DoorType { get; set; } //store the door chosen to determine rooms description
-
-//        public List<Room> Rooms { get; set; }
-//    }
-
-//    public class RoomData : DbContext
-//    {
-//        public RoomData() : base("MyGameRooms") { }
-//        public DbSet<Room> Rooms { get; set; }
-//        public DbSet<Door> Doors { get; set; }
-
-//    }
-//}
 namespace Object_oriented_development_project
 {
     public class Room
