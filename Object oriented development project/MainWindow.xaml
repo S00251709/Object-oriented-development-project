@@ -16,7 +16,7 @@
             <TextBlock x:Name="PlayerHealthText" Text="Health: 100" 
         Margin="0,2,0,2" FontSize="24" />
             <TextBlock x:Name="PlayerScoreText" Text="Score: 0" 
-    Margin="0,2,0,2" FontSize="20" />
+        Margin="0,2,0,2" FontSize="20" />
         </StackPanel>
             <!-- Room Description -->
             <Border Grid.Row="1" BorderBrush="#cbb279" BorderThickness="3" CornerRadius="10" Padding="15" Background="#2a293d">
@@ -65,10 +65,6 @@
                                TextWrapping="Wrap" Margin="0,5,0,5" FontSize="14"  />
                 </ScrollViewer>
             </Border>
-            <!--<TextBlock x:Name="PlayerHealthText" Text="Health: 100" 
-                    Margin="0,2,0,2" FontSize="14" />
-            <TextBlock x:Name="PlayerScoreText" Text="Score: 0" 
-                Margin="0,2,0,2" FontSize="14" />-->
         </StackPanel>
         
 
